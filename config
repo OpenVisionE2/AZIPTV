@@ -1,0 +1,2 @@
+# Buffer size - must be >= 128
+<buffersize>512</buffersize>
