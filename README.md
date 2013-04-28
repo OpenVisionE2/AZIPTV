@@ -1,4 +1,4 @@
 AzIPTV
 ======
 
-OpenAZBoxMOD Enigma2 AzIPTV plugin
+AZIPTV enigma2 plugin for Open AZBox project
