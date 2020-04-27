@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+from __future__ import print_function
 from enigma import *
 from Screens.Screen import Screen
 from Plugins.Plugin import PluginDescriptor
@@ -122,7 +125,7 @@ class IPTV(Screen):
                         buffersize = int(line[ipos + 12:ipos1])
 
         except:
-            print 'Error reading cfg file.'
+            print('Error reading cfg file.')
 
         if buffersize < 128:
             buffersize = 128
@@ -150,7 +153,7 @@ class IPTV(Screen):
                 n += 1
 
         except Exception:
-            print 'Error reading bouquets file.'
+            print('Error reading bouquets file.')
 
         self['menu1'].setList(self.list2)
         self['infoM0'].setText('ALL Channels')
@@ -181,10 +184,10 @@ class IPTV(Screen):
             line = tmpfile.readline()
             tmpfile.close()
         except IOError:
-            print 'Error updateMsg'
+            print('Error updateMsg')
 
         if int(line[:-1]) == 1:
-            print 'StopService - DONE ! (', self.TestCounter, ')'
+            print('StopService - DONE ! (', self.TestCounter, ')')
             self['start_progress'].setValue(100)
             self.DVBCATimer1 = eTimer()
             self.DVBCATimer1.callback.append(self.Prepare1)
@@ -207,7 +210,7 @@ class IPTV(Screen):
             self['infoM0'].setText(str(self.list2[number])[3:])
             self.PostaviLista(number)
         except Exception as e:
-            print e
+            print(e)
             return
 
     def PostaviLista(self, number):
@@ -226,7 +229,7 @@ class IPTV(Screen):
                     data = line.decode(enc)
                     line = data.encode('utf-8')
                 except Exception:
-                    print 'Error enciding utf-8 filename.'
+                    print('Error enciding utf-8 filename.')
 
                 if str(line)[:7] == '#EXTM3U':
                     continue
@@ -251,7 +254,7 @@ class IPTV(Screen):
                     self.list1.append(str(line))
 
         except Exception:
-            print 'Error reading chlist file.'
+            print('Error reading chlist file.')
 
         self['menu'].setList(self.list)
         self.ListCount = n
@@ -278,7 +281,7 @@ class IPTV(Screen):
                     f.close()
 
             except Exception as e:
-                print e
+                print(e)
 
             if os.path.exists('/tmp/rmfp.cmd2'):
                 break
@@ -292,7 +295,7 @@ class IPTV(Screen):
             link = link[:len(link) - 1]
             cmd = self.cmd0 + "'" + link + "' &"
             os.popen(cmd)
-            print '[IPTV cmd] ' + cmd
+            print('[IPTV cmd] ' + cmd)
             self.playstarted = True
             self.HDDTimer1 = eTimer()
             self.HDDTimer1.callback.append(self.sakri)
@@ -341,7 +344,7 @@ class IPTV(Screen):
 
     def DirectCh(self, chno):
         sel = int(chno)
-        print '[Chanel No.:] ' + str(sel)
+        print('[Chanel No.:] ' + str(sel))
         if sel >= self.ListCount:
             sel = self.ListCount - 1
         self['menu'].setIndex(sel - 1)
@@ -381,7 +384,7 @@ class IPTV(Screen):
                     f.close()
 
             except Exception as e:
-                print e
+                print(e)
 
             if os.path.exists('/tmp/rmfp.cmd2'):
                 break
@@ -483,26 +486,26 @@ class IPTV(Screen):
         self.session.openWithCallback(self.ClBackCfg, AZIPTVConfig)
 
     def ClBackCfg(self, komanda = None):
-        print '-'
+        print('-')
         if komanda == 'ok':
-            print 'Saved'
+            print('Saved')
 
     def ClBack(self):
-        print '++++++++++++++++++++++++'
+        print('++++++++++++++++++++++++')
 
     def OpenFrontend(self):
         frontend = None
         resource_manager = eDVBResourceManager.getInstance()
         if resource_manager is None:
-            print 'get resource manager instance failed'
+            print('get resource manager instance failed')
         else:
             self.raw_channel = resource_manager.allocateRawChannel(self.feid)
             if self.raw_channel is None:
-                print 'allocateRawChannel failed'
+                print('allocateRawChannel failed')
             else:
                 frontend = self.raw_channel.getFrontend()
                 if frontend is None:
-                    print 'getFrontend failed'
+                    print('getFrontend failed')
         return frontend
 
 
@@ -564,7 +567,7 @@ class HideScr(Screen):
         self.session.openWithCallback(self.ClBackCfg, AZIPTVConfig, '1')
 
     def ClBackCfg(self, komanda = None):
-        print '-'
+        print('-')
         if komanda == 'ok':
             if config.AZIPTV.Scaling.value == 'Just Scale':
                 cmd = 223
