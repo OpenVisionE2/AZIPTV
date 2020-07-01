@@ -210,7 +210,7 @@ class IPTV(Screen):
             self['infoM0'].setText(str(self.list2[number])[3:])
             self.PostaviLista(number)
         except Exception as e:
-            print(e)
+            print(str(e))
             return
 
     def PostaviLista(self, number):
@@ -281,7 +281,7 @@ class IPTV(Screen):
                     f.close()
 
             except Exception as e:
-                print(e)
+                print(str(e))
 
             if os.path.exists('/tmp/rmfp.cmd2'):
                 break
@@ -384,7 +384,7 @@ class IPTV(Screen):
                     f.close()
 
             except Exception as e:
-                print(e)
+                print(str(e))
 
             if os.path.exists('/tmp/rmfp.cmd2'):
                 break
