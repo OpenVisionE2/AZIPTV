@@ -115,7 +115,7 @@ class IPTV(Screen):
         self.DVBCATimer.callback.append(self.Prepare)
         buffersize = 512
         try:
-            myfile = file('/usr/lib/enigma2/python/Plugins/Extensions/AzIPTV/config')
+            myfile = open('/usr/lib/enigma2/python/Plugins/Extensions/AzIPTV/config')
             for line in myfile.readlines():
                 if line[0:1] != '#':
                     ipos = ipos1 = 0
