@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from Plugins.Plugin import PluginDescriptor
 
+
 def PVIPTV(*args, **kwargs):
     import IPTV
     return IPTV.IPTV(False, *args, **kwargs)
