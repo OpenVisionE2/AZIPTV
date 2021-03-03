@@ -6,9 +6,6 @@ from Screens.Screen import Screen
 from Plugins.Plugin import PluginDescriptor
 from Components.ActionMap import ActionMap, NumberActionMap
 from Components.MenuList import MenuList
-from Components.GUIComponent import GUIComponent
-from Components.HTMLComponent import HTMLComponent
-from Tools.Directories import fileExists
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaTest
 from Components.Pixmap import Pixmap
 from Tools.LoadPixmap import LoadPixmap
@@ -17,23 +14,19 @@ from Components.Sources.List import List
 import re
 import os
 import sys
-from os import system, listdir, statvfs, popen, makedirs, stat, major, minor, path, access
-from enigma import eTPM, eTimer, eServiceReference, iPlayableService
-from Components.AVSwitch import AVSwitch
-from Components.SystemInfo import SystemInfo
-import urllib
-from Components.config import config, ConfigSubsection, ConfigSelection, getConfigListEntry, ConfigText
+from os import popen, stat, path
+from enigma import eTimer, getBoxType
+from Components.config import config, ConfigSubsection, ConfigSelection, getConfigListEntry
 from Components.ConfigList import ConfigListScreen
 from Components.Sources.StaticText import StaticText
-from Screens.MessageBox import MessageBox
-from Screens.VirtualKeyBoard import VirtualKeyBoard
-from Tools.HardwareInfo import HardwareInfo
-from Components.NimManager import nimmanager, getConfigSatlist
+from Components.NimManager import nimmanager
 from Components.Console import Console
 from Components.ProgressBar import ProgressBar
 import time
-from Tools.HardwareInfo import HardwareInfo
 from Components.VolumeControl import VolumeControl
+
+model = getBoxType()
+
 config.AZIPTV = ConfigSubsection()
 config.AZIPTV.Scaling = ConfigSelection(default='Just Scale', choices=['Just Scale', 'Pan&Scan', 'Pillarbox'])
 
@@ -130,10 +123,9 @@ class IPTV(Screen):
 
         if buffersize < 128:
             buffersize = 128
-        hw_type = HardwareInfo().get_device_name()
-        if hw_type == 'minime' or hw_type == 'me':
+        if model == 'azboxminime' or model == 'azboxme':
             self.cmd0 = 'rmfp_player -dram 0 -ve 0 -vd 0 -ae 0 -no_disp -prebuf '
-        if hw_type == 'elite' or hw_type == 'premium' or hw_type == 'premium+' or hw_type == 'ultra':
+        else:
             self.cmd0 = 'rmfp_player -dram 1 -ve 1 -vd 0 -ae 0 -no_disp -prebuf '
         self.cmd0 = self.cmd0 + str(buffersize) + ' -detect_limit 100 -resetvcxo -no_close -oscaler spu -nosubs '
         self.showhide = 0
@@ -736,8 +728,4 @@ def main(session, **kwargs):
 
 
 def Plugins(**kwargs):
-    boxime = 'me'
-    if boxime == 'elite' or boxime == 'premium' or boxime == 'premium+' or boxime == 'ultra' or boxime == 'me' or boxime == 'minime' or boxime == 'multimedia':
-        return [PluginDescriptor(name=_('AzIPTV'), description=_('AzIPTV'), icon='IPTV.png', where=[PluginDescriptor.WHERE_EXTENSIONSMENU, PluginDescriptor.WHERE_PLUGINMENU], fnc=main)]
-    else:
-        return []
+    return [PluginDescriptor(name=_('AzIPTV'), description=_('AzIPTV'), icon='IPTV.png', where=[PluginDescriptor.WHERE_EXTENSIONSMENU, PluginDescriptor.WHERE_PLUGINMENU], fnc=main)]
