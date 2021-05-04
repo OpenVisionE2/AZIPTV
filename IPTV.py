@@ -15,7 +15,7 @@ import re
 import os
 import sys
 from os import popen, stat, path
-from enigma import eTimer, getBoxType
+from enigma import eTimer
 from Components.config import config, ConfigSubsection, ConfigSelection, getConfigListEntry
 from Components.ConfigList import ConfigListScreen
 from Components.Sources.StaticText import StaticText
@@ -24,8 +24,9 @@ from Components.Console import Console
 from Components.ProgressBar import ProgressBar
 import time
 from Components.VolumeControl import VolumeControl
+from Components.SystemInfo import BoxInfo
 
-model = getBoxType()
+model = BoxInfo.getItem("brand")
 
 config.AZIPTV = ConfigSubsection()
 config.AZIPTV.Scaling = ConfigSelection(default='Just Scale', choices=['Just Scale', 'Pan&Scan', 'Pillarbox'])
